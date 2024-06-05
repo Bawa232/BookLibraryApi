@@ -8,6 +8,12 @@ namespace BookLibraryApi.Controllers
     [ApiController]
     public class BookAPIController : ControllerBase
     {
+        private readonly ILogger<BookAPIController> _logger;
+
+        public BookAPIController(ILogger<BookAPIController> logger)
+        {
+            this._logger = logger;
+        }
         [HttpGet]
         public ActionResult<IEnumerable<Book>> GetBooks()
         {
@@ -31,6 +37,8 @@ namespace BookLibraryApi.Controllers
 
         public ActionResult<Book> CreateBook([FromBody] Book book)
         {
+            _logger.LogInformation("Creating a new book");
+
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
